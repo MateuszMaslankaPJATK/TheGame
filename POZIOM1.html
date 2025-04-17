@@ -1,11 +1,28 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <title>Poziom 1</title>
-</head>
-<body>
-  <h1>POZIOM 2</h1>
-</a>
-</body>
-</html>
+<script>
+  function simpleHash(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0; // zamiana na 32-bit
+    }
+    return hash;
+  }
+
+  const loginHash = 123;        // hash("admin")
+  const passHash = 321;          // hash("1234")
+  const sqdHash = 000;           // hash("abc")
+
+  document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const login = simpleHash(document.getElementById("login").value);
+    const password = simpleHash(document.getElementById("password").value);
+    const sqd = simpleHash(document.getElementById("sqd").value);
+
+    if (login === loginHash && password === passHash && sqd === sqdHash) {
+      window.location.href = "POZIOM1.html";
+    } else {
+      document.getElementById("error").style.display = "block";
+    }
+  });
+</script>
