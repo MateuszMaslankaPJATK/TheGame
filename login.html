@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>ACCESS REQUIRED</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    input {
+      background-color: black;
+      color: lime;
+      border: 1px solid lime;
+      padding: 8px;
+      margin: 5px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: black;
+      color: lime;
+      border: 1px solid lime;
+      cursor: pointer;
+    }
+
+    #error {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>ACCESS REQUIRED</h1>
+
+  <form id="loginForm">
+    <div>
+      LOGIN:<br>
+      <input type="text" id="login" required><br>
+    </div>
+
+    <div>
+      HASŁO:<br>
+      <input type="password" id="password" required><br>
+    </div>
+
+    <div>
+      SQD:<br>
+      <input type="text" id="sqd" required><br>
+    </div>
+
+    <button type="submit">ENTER</button>
+    <div id="error">✖ BŁĘDNE DANE</div>
+  </form>
+
+  <script>
+    function simpleHash(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+      }
+      return hash;
+    }
+
+    const loginHash = -873820673;    // hash("admin")
+    const passHash = 48690;          // hash("1234")
+    const sqdHash = 96354;           // hash("abc")
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const login = simpleHash(document.getElementById("login").value);
+      const password = simpleHash(document.getElementById("password").value);
+      const sqd = simpleHash(document.getElementById("sqd").value);
+
+      if (login === loginHash && password === passHash && sqd === sqdHash) {
+        window.location.href = "POZIOM1.html";
+      } else {
+        document.getElementById("error").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
